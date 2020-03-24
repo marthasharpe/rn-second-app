@@ -1,19 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Header from './components/Header';
+import { ErrorBoundary } from './ErrorBoundary';
+import StartGameScreen from './components/screens/StartGameScreen';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <ErrorBoundary>
+      <View style={styles.container}>
+        <Header />
+        <StartGameScreen />
+      </View>
+    </ErrorBoundary>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    backgroundColor: "yellow",
+    width: "100%",
+    flex: 1
+  }
 });
