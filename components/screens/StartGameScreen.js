@@ -30,7 +30,15 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: "80%",
-        alignItems: "center"
+        alignItems: "center",
+        shadowColor: "black",
+        shadowOffset: { width: 2, height: 2 },
+        shadowRadius: 4,
+        shadowOpacity: 0.2,
+        backgroundColor: "white",
+        elevation: 5, //android shadow
+        padding: 20,
+        borderRadius: 10
     },
     buttonContainer: {
         flexDirection: "row",
