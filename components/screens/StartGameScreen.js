@@ -1,15 +1,52 @@
 import React from 'react';
-import { View, StyleSheet, Text, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Text,
+    Button,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Alert
+} from 'react-native';
 import Card from '../Card';
 import Colors from '../../constants/colors';
 import Input from '../Input';
 
 const StartGameScreen = (props) => {
-    const [enteredValue, setEnteredValue] = React.useState('')
+    const [enteredValue, setEnteredValue] = React.useState('');
+    const [confirmed, setConfirmed] = React.useState(false);
+    const [chosenNumber, setChosenNumber] = React.useState();
     
-    const handleInputChange = (inputText) => {
-        // any non-number gets replaced by an empty string
+    const handleInputNumber = (inputText) => {
         setEnteredValue(inputText.replace(/[^0-9]/g, ''));
+    }
+
+    const handleInputReset = () => {
+        setEnteredValue('');
+        setConfirmed(false);
+    }
+
+    const handleInputSubmit = () => {
+        const number = parseInt(enteredValue);
+        // validate input type
+        if (isNaN(number) || number <= 0 || number > 99) {
+            // Alert with title, message, and buttons
+            Alert.alert(
+                'Invalid number!',
+                'Choose a number between 1 and 99.',
+                [{text: 'Okay', style: 'destructive', onPress: handleInputReset}]
+            )
+            return;
+        }
+        setConfirmed(true);
+        setChosenNumber(number);
+        setEnteredValue('');
+    }
+
+    let confirmedOutput;
+
+    if (confirmed) {
+        confirmedOutput = <Text>Chosen number: {chosenNumber}</Text>
     }
 
     return (
@@ -24,23 +61,26 @@ const StartGameScreen = (props) => {
                     style={styles.input}
                     keyboardType="numeric"
                     maxLength={2}
-                    onChangeText={handleInputChange}
+                    onChangeText={handleInputNumber}
                 />
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
                         <Button
                             title="Reset"
                             color={Colors.secondary}
+                            onPress={handleInputReset}
                         />
                     </View>
                     <View style={styles.button}>
                         <Button
-                            title="Select"
+                            title="Submit"
                             color={Colors.primary}
+                            onPress={handleInputSubmit}
                         />
                     </View>
                 </View>
             </Card>
+            {confirmedOutput}
         </View>
         </TouchableWithoutFeedback>
     )
